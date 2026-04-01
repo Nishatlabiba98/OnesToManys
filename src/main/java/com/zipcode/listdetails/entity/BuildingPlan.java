@@ -15,6 +15,7 @@ public class BuildingPlan {
     private String style;
     private int squareFeet;
     private String notes;
+    private String icon;
 
     @ManyToOne
     @JoinColumn(name = "builder_id")
@@ -33,6 +34,8 @@ public class BuildingPlan {
     public void setSquareFeet(int sf)       { this.squareFeet = sf; }
     public String getNotes()                { return notes; }
     public void setNotes(String notes)      { this.notes = notes; }
+    public String getIcon()                 { return icon; }
+    public void setIcon(String icon)        { this.icon = icon; }
     public Builder getBuilder()             { return builder; }
     public void setBuilder(Builder builder) { this.builder = builder; }
 }

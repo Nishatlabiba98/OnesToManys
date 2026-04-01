@@ -5,7 +5,8 @@ CREATE TABLE builder (
     id       BIGINT AUTO_INCREMENT PRIMARY KEY,
     name     VARCHAR(100) NOT NULL,
     vision   VARCHAR(255) NOT NULL,
-    location VARCHAR(150) NOT NULL
+    location VARCHAR(150) NOT NULL,
+    icon     VARCHAR(10)
 );
 
 CREATE TABLE building_plan (
@@ -15,6 +16,7 @@ CREATE TABLE building_plan (
     style       VARCHAR(100) NOT NULL,
     square_feet INT          NOT NULL,
     notes       VARCHAR(500),
+    icon        VARCHAR(10),
     CONSTRAINT fk_builder
         FOREIGN KEY (builder_id) REFERENCES builder(id)
         ON DELETE CASCADE

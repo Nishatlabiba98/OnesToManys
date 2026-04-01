@@ -1,6 +1,7 @@
 package com.zipcode.listdetails.controller;
 
 import com.zipcode.listdetails.entity.Builder;
+import com.zipcode.listdetails.entity.BuildingPlan;
 import com.zipcode.listdetails.repository.BuilderRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,6 +29,13 @@ public class BuilderController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    @GetMapping("/{id}/plans")
+    public ResponseEntity<List<BuildingPlan>> getPlansByBuilder(@PathVariable Long id) {
+        return repo.findById(id)
+                .map(b -> ResponseEntity.ok(b.getPlans()))
+                .orElse(ResponseEntity.notFound().build());
+    }
+
     @PostMapping
     public Builder create(@RequestBody Builder builder) {
         return repo.save(builder);
@@ -40,6 +48,7 @@ public class BuilderController {
             b.setName(updated.getName());
             b.setVision(updated.getVision());
             b.setLocation(updated.getLocation());
+            b.setIcon(updated.getIcon());
             return ResponseEntity.ok(repo.save(b));
         }).orElse(ResponseEntity.notFound().build());
     }

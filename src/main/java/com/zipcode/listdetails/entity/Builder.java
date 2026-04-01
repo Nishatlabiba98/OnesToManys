@@ -14,6 +14,7 @@ public class Builder {
     private String name;
     private String vision;
     private String location;
+    private String icon;
 
     @OneToMany(mappedBy = "builder", cascade = CascadeType.ALL)
     private List<BuildingPlan> plans;
@@ -28,6 +29,8 @@ public class Builder {
     public void setVision(String vision)       { this.vision = vision; }
     public String getLocation()                { return location; }
     public void setLocation(String location)   { this.location = location; }
+    public String getIcon()                    { return icon; }
+    public void setIcon(String icon)           { this.icon = icon; }
     public List<BuildingPlan> getPlans()       { return plans; }
     public void setPlans(List<BuildingPlan> p) { this.plans = p; }
 }

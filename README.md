@@ -25,7 +25,7 @@ It has three phases.
 - add a one to many relationship between your master and detail tables
 - add REST API endpoints for the one to many relationship
 - use a GUI based REST API client to test your endpoints
-  - you might use Postman or Insomnia, or even Everest.
+  - you use or even Everest.
 - add a means to dump and load your data to either SQL and/or JSON files
 
 ### Phase 3 (days 5-7)
