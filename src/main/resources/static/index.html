@@ -862,6 +862,7 @@
     function closePlanModal() { document.getElementById('plan-modal').classList.remove('open'); }
 
     async function savePlan() {
+      const isEditing = editingPlanId !== null;
       const body = {
         title: document.getElementById('plan-title').value,
         style: document.getElementById('plan-style').value,
@@ -870,12 +871,13 @@
         icon: document.getElementById('plan-icon').value || '🌾',
         builder: { id: selectedBuilderId }
       };
-      const url = editingPlanId ? `${API}/plans/${editingPlanId}` : `${API}/plans`;
-      const method = editingPlanId ? 'PUT' : 'POST';
+      const url = isEditing ? `${API}/plans/${editingPlanId}` : `${API}/plans`;
+      const method = isEditing ? 'PUT' : 'POST';
       await fetch(url, { method, headers: {'Content-Type':'application/json'}, body: JSON.stringify(body) });
+      editingPlanId = null;
       closePlanModal();
-      selectBuilder(selectedBuilderId, selectedBuilderName);
-      toast(editingPlanId ? '✏️ Plan updated' : '🌾 Plan added!');
+      await selectBuilder(selectedBuilderId, selectedBuilderName);
+      toast(isEditing ? '✏️ Plan updated' : '🌾 Plan added!');
     }
 
     async function deletePlan(id) {
