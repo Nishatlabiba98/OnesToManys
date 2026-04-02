@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Homestead API Tester</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:       #0D1B2A;
+    --surface:  #122236;
+    --card:     #162840;
+    --border:   #1e3a55;
+    --teal:     #00D4AA;
+    --teal-dim: #00966f;
+    --amber:    #F5A623;
+    --red:      #ff5f6d;
+    --green:    #00D4AA;
+    --text:     #c8d8e8;
+    --muted:    #5a7a96;
+    --mono:     'JetBrains Mono', monospace;
+    --sans:     'Syne', sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    grid-template-rows: 56px 1fr;
+    grid-template-areas: "header header" "sidebar main";
+  }
+
+  header {
+    grid-area: header;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; gap: 16px;
+    padding: 0 24px;
+  }
+  header .logo { font-size: 18px; font-weight: 800; letter-spacing: -0.5px; }
+  header .logo span { color: var(--teal); }
+  header .base-url-wrap {
+    margin-left: auto;
+    display: flex; align-items: center; gap: 8px;
+    font-family: var(--mono); font-size: 13px;
+  }
+  header .base-url-wrap label { color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: 1px; }
+  header input.base-url {
+    background: var(--bg); border: 1px solid var(--border);
+    color: var(--teal); padding: 5px 10px; border-radius: 4px;
+    font-family: var(--mono); font-size: 13px; width: 240px;
+  }
+  header input.base-url:focus { outline: none; border-color: var(--teal); }
+
+  aside {
+    grid-area: sidebar;
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    overflow-y: auto; padding: 16px 0;
+  }
+  .section-label {
+    font-size: 10px; font-weight: 700; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--muted);
+    padding: 12px 20px 6px;
+  }
+  .endpoint-btn {
+    display: flex; align-items: center; gap: 10px;
+    width: 100%; padding: 9px 20px;
+    background: none; border: none; cursor: pointer;
+    text-align: left; color: var(--text);
+    font-family: var(--sans); font-size: 13px;
+    transition: background 0.15s;
+  }
+  .endpoint-btn:hover { background: rgba(0,212,170,0.07); }
+  .endpoint-btn.active { background: rgba(0,212,170,0.12); color: var(--teal); }
+  .method-badge {
+    font-family: var(--mono); font-size: 10px; font-weight: 700;
+    padding: 2px 6px; border-radius: 3px; min-width: 42px;
+    text-align: center; flex-shrink: 0;
+  }
+  .GET    { background: #0a3a2a; color: #00D4AA; }
+  .POST   { background: #2a2a0a; color: #F5A623; }
+  .PUT    { background: #0a1f3a; color: #4ea8ff; }
+  .DELETE { background: #3a0a0a; color: #ff5f6d; }
+
+  main {
+    grid-area: main;
+    display: grid; grid-template-rows: auto minmax(0, 1fr);
+    overflow: hidden;
+  }
+  .request-panel, .response-panel {
+    display: flex; flex-direction: column;
+    overflow: hidden;
+    padding: 14px 16px;
+  }
+  .request-panel { border-bottom: 1px solid var(--border); }
+
+  .panel-title {
+    font-size: 11px; font-weight: 700; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--muted);
+    margin-bottom: 10px;
+  }
+  .url-bar {
+    display: flex; gap: 8px; margin-bottom: 10px;
+  }
+  .url-bar .method-display {
+    background: var(--card); border: 1px solid var(--border);
+    padding: 0 14px; border-radius: 6px;
+    font-family: var(--mono); font-size: 13px; font-weight: 700;
+    display: flex; align-items: center;
+    min-width: 80px; justify-content: center;
+  }
+  .url-bar input {
+    flex: 1; background: var(--card); border: 1px solid var(--border);
+    color: var(--text); padding: 10px 14px; border-radius: 6px;
+    font-family: var(--mono); font-size: 13px;
+  }
+  .url-bar input:focus { outline: none; border-color: var(--teal); }
+  .send-btn {
+    background: var(--teal); color: var(--bg);
+    border: none; padding: 10px 24px; border-radius: 6px;
+    font-family: var(--sans); font-weight: 700; font-size: 13px;
+    cursor: pointer; transition: background 0.15s; letter-spacing: 0.5px;
+  }
+  .send-btn:hover { background: #00b896; }
+  .send-btn:active { transform: scale(0.98); }
+
+  .body-section { flex: none; display: flex; flex-direction: column; min-height: 0; }
+  .body-label {
+    font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 4px;
+  }
+  textarea.body-input {
+    flex: none; background: var(--card); border: 1px solid var(--border);
+    color: #a8d4b8; padding: 12px; border-radius: 6px;
+    font-family: var(--mono); font-size: 12px; resize: vertical;
+    line-height: 1.5;
+    height: calc(1.5em * 8 + 24px);
+    max-height: calc(1.5em * 8 + 24px);
+    min-height: calc(1.5em * 8 + 24px);
+    overflow-y: auto;
+  }
+  textarea.body-input:focus { outline: none; border-color: var(--teal); }
+
+  .response-panel { background: var(--bg); }
+  .response-meta {
+    display: flex; align-items: center; gap: 16px;
+    margin-bottom: 12px;
+  }
+  .status-badge {
+    font-family: var(--mono); font-size: 13px; font-weight: 700;
+    padding: 3px 10px; border-radius: 4px;
+  }
+  .status-2xx { background: #0a3a2a; color: var(--teal); }
+  .status-4xx { background: #3a0a0a; color: var(--red); }
+  .status-5xx { background: #3a1a0a; color: var(--amber); }
+  .status-pending { background: var(--card); color: var(--muted); }
+  .timing { font-family: var(--mono); font-size: 11px; color: var(--muted); }
+
+  .response-body {
+    flex: 1; overflow-y: auto;
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 6px; padding: 14px;
+    font-family: var(--mono); font-size: 12px; line-height: 1.7;
+    white-space: pre-wrap; min-height: 80px;
+  }
+
+  .curl-row {
+    margin-bottom: 8px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .curl-box {
+    flex: 1; background: #060f18; border: 1px solid var(--border);
+    color: #6eb8f0; padding: 8px 12px; border-radius: 6px;
+    font-family: var(--mono); font-size: 11px;
+    white-space: nowrap; overflow-x: auto;
+  }
+  .copy-btn {
+    background: var(--card); border: 1px solid var(--border);
+    color: var(--muted); padding: 7px 12px; border-radius: 6px;
+    font-family: var(--mono); font-size: 11px; cursor: pointer;
+    flex-shrink: 0; transition: color 0.15s, border-color 0.15s;
+  }
+  .copy-btn:hover { color: var(--teal); border-color: var(--teal); }
+  .copy-btn.copied { color: var(--teal); }
+
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: var(--surface); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">🌾 Homestead <span>API</span></div>
+  <div class="base-url-wrap">
+    <label>Base URL</label>
+    <input class="base-url" id="baseUrl" value="http://localhost:8080">
+  </div>
+</header>
+
+<aside id="sidebar"></aside>
+
+<main>
+  <div class="request-panel">
+    <div class="panel-title">Request</div>
+    <div class="curl-row">
+      <div class="curl-box" id="curlBox">—</div>
+      <button class="copy-btn" id="copyBtn" onclick="copyCurl()">copy curl</button>
+    </div>
+    <div class="url-bar">
+      <div class="method-display" id="methodDisplay">—</div>
+      <input id="urlInput" type="text" placeholder="Select an endpoint from the sidebar">
+      <button class="send-btn" onclick="sendRequest()">Send</button>
+    </div>
+    <div class="body-section">
+      <div class="body-label">Request Body (JSON)</div>
+      <textarea class="body-input" id="bodyInput" placeholder="{}"></textarea>
+    </div>
+  </div>
+
+  <div class="response-panel">
+    <div class="panel-title">Response</div>
+    <div class="response-meta">
+      <div class="status-badge status-pending" id="statusBadge">—</div>
+      <div class="timing" id="timingDisplay"></div>
+    </div>
+    <div class="response-body" id="responseBody">Select an endpoint and click Send.</div>
+  </div>
+</main>
+
+<script>
+const ENDPOINTS = [
+  // Builders
+  { tag: "Builders", method: "GET",    path: "/api/builders",
+    body: null, desc: "List all builders" },
+  { tag: "Builders", method: "GET",    path: "/api/builders/{id}",
+    body: null, desc: "Get builder by ID" },
+  { tag: "Builders", method: "GET",    path: "/api/builders/export",
+    body: null, desc: "Export all (dump)" },
+  { tag: "Builders", method: "POST",   path: "/api/builders",
+    body: JSON.stringify({ name: "Labiba", vision: "Peaceful homes for everyone", location: "Ogden, UT", icon: "🌸" }, null, 2),
+    desc: "Create builder" },
+  { tag: "Builders", method: "PUT",    path: "/api/builders/{id}",
+    body: JSON.stringify({ name: "Nishat", vision: "Cozy family spaces with heart", location: "Salt Lake City, UT", icon: "🏡" }, null, 2),
+    desc: "Update builder" },
+  { tag: "Builders", method: "DELETE", path: "/api/builders/{id}",
+    body: null, desc: "Delete builder" },
+
+  // Building Plans
+  { tag: "Building Plans", method: "GET",    path: "/api/plans",
+    body: null, desc: "List all plans" },
+  { tag: "Building Plans", method: "GET",    path: "/api/plans/{id}",
+    body: null, desc: "Get plan by ID" },
+  { tag: "Building Plans", method: "GET",    path: "/api/builders/{id}/plans",
+    body: null, desc: "Plans by builder ⭐" },
+  { tag: "Building Plans", method: "POST",   path: "/api/plans",
+    body: JSON.stringify({ title: "The Meadow", style: "Ranch", squareFeet: 2000, notes: "Open fields, great for kids", icon: "🌾", builder: { id: 1 } }, null, 2),
+    desc: "Create plan" },
+  { tag: "Building Plans", method: "PUT",    path: "/api/plans/{id}",
+    body: JSON.stringify({ title: "The Meadow", style: "Ranch", squareFeet: 2200, notes: "Updated layout", icon: "🌾" }, null, 2),
+    desc: "Update plan" },
+  { tag: "Building Plans", method: "DELETE", path: "/api/plans/{id}",
+    body: null, desc: "Delete plan" },
+];
+
+let currentMethod = "GET";
+
+function buildSidebar() {
+  const sidebar = document.getElementById("sidebar");
+  let lastTag = "";
+  ENDPOINTS.forEach((ep, i) => {
+    if (ep.tag !== lastTag) {
+      const lbl = document.createElement("div");
+      lbl.className = "section-label";
+      lbl.textContent = ep.tag;
+      sidebar.appendChild(lbl);
+      lastTag = ep.tag;
+    }
+    const btn = document.createElement("button");
+    btn.className = "endpoint-btn";
+    btn.dataset.idx = i;
+    btn.innerHTML = `<span class="method-badge ${ep.method}">${ep.method}</span>${ep.desc}`;
+    btn.onclick = () => selectEndpoint(i);
+    sidebar.appendChild(btn);
+  });
+}
+
+function selectEndpoint(idx) {
+  document.querySelectorAll(".endpoint-btn").forEach(b => b.classList.remove("active"));
+  document.querySelectorAll(".endpoint-btn")[idx].classList.add("active");
+
+  const ep = ENDPOINTS[idx];
+  currentMethod = ep.method;
+
+  const base = document.getElementById("baseUrl").value.replace(/\/$/, "");
+  let path = ep.path;
+  if (path.includes("{id}")) {
+    const id = prompt(`Enter the ID for: ${ep.desc}`, "1");
+    if (!id) return;
+    path = path.replace("{id}", id);
+  }
+
+  const url = base + path;
+  document.getElementById("methodDisplay").textContent = ep.method;
+  document.getElementById("methodDisplay").className = `method-display ${ep.method}`;
+  document.getElementById("urlInput").value = url;
+  document.getElementById("bodyInput").value = ep.body || "";
+  updateCurl();
+
+  document.getElementById("statusBadge").textContent = "—";
+  document.getElementById("statusBadge").className = "status-badge status-pending";
+  document.getElementById("timingDisplay").textContent = "";
+  document.getElementById("responseBody").textContent = "Click Send to execute.";
+}
+
+function updateCurl() {
+  const url = document.getElementById("urlInput").value;
+  const method = currentMethod;
+  const body = document.getElementById("bodyInput").value.trim();
+  let cmd = `curl -s -X ${method} "${url}" -H "Accept: application/json"`;
+  if (["POST", "PUT"].includes(method) && body) {
+    cmd += ` -H "Content-Type: application/json" -d '${body.replace(/'/g, "\\'")}'`;
+  }
+  document.getElementById("curlBox").textContent = cmd;
+}
+
+document.getElementById("urlInput").addEventListener("input", updateCurl);
+document.getElementById("bodyInput").addEventListener("input", updateCurl);
+
+async function sendRequest() {
+  const url = document.getElementById("urlInput").value;
+  const method = currentMethod;
+  const rawBody = document.getElementById("bodyInput").value.trim();
+  if (!url) return;
+
+  const start = performance.now();
+  const opts = { method, headers: { "Accept": "application/json" } };
+  if (["POST", "PUT"].includes(method) && rawBody) {
+    opts.headers["Content-Type"] = "application/json";
+    opts.body = rawBody;
+  }
+
+  const rb = document.getElementById("responseBody");
+  rb.textContent = "Sending…";
+
+  try {
+    const res = await fetch(url, opts);
+    const ms = Math.round(performance.now() - start);
+    const badge = document.getElementById("statusBadge");
+    badge.textContent = `${res.status} ${res.statusText}`;
+    badge.className = "status-badge " + (res.ok ? "status-2xx" : res.status >= 500 ? "status-5xx" : "status-4xx");
+    document.getElementById("timingDisplay").textContent = `${ms} ms`;
+
+    const text = await res.text();
+    rb.textContent = text || "(empty body)";
+    try {
+      if (/^[\s\n\r]*[\[{]/.test(text)) {
+        rb.textContent = JSON.stringify(JSON.parse(text), null, 2);
+      }
+    } catch { }
+  } catch (err) {
+    document.getElementById("statusBadge").textContent = "Error";
+    document.getElementById("statusBadge").className = "status-badge status-4xx";
+    rb.textContent = `Network error: ${err.message}\n\nMake sure Spring Boot is running at ${document.getElementById("baseUrl").value}`;
+  }
+}
+
+function copyCurl() {
+  const txt = document.getElementById("curlBox").textContent;
+  navigator.clipboard.writeText(txt).then(() => {
+    const btn = document.getElementById("copyBtn");
+    btn.textContent = "copied!";
+    btn.classList.add("copied");
+    setTimeout(() => { btn.textContent = "copy curl"; btn.classList.remove("copied"); }, 1500);
+  });
+}
+
+buildSidebar();
+</script>
+</body>
+</html>
