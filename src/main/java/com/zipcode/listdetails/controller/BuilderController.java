@@ -5,6 +5,7 @@ import com.zipcode.listdetails.entity.BuildingPlan;
 import com.zipcode.listdetails.repository.BuilderRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @RestController
@@ -34,6 +35,11 @@ public class BuilderController {
         return repo.findById(id)
                 .map(b -> ResponseEntity.ok(b.getPlans()))
                 .orElse(ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/export")
+    public List<Builder> exportAll() {
+        return repo.findAll();
     }
 
     @PostMapping

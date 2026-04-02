@@ -45,7 +45,7 @@ curl -X DELETE http://localhost:8080/api/builders/1
 
  so REST API is just a web interface that follows REST rules to talk to the program to send and recieve data.
 
-
+ presentation cheat sheet
  lsof -ti:8080 | xargs kill -9
 mvn spring-boot:run
 
@@ -58,3 +58,20 @@ location          many     title
 icon                       style
                            notes
                            icon
+
+ Kris requested commands- curl http://localhost:8080/api/builders
+
+               curl http://localhost:8080/api/plans    
+               add        
+                    curl -X PUT http://localhost:8080/api/builders/1 \
+  -H "Content-Type: application/json" \
+  -d '{"name":"Nishat","vision":"Updated vision","location":"Salt Lake City, UT","icon":"🏡"}'
+
+  update
+  curl -X POST http://localhost:8080/api/builders \
+  -H "Content-Type: application/json" \
+  -d '{"name":"Labiba","vision":"Peaceful homes","location":"Ogden, UT","icon":"🌸"}'
+  delete 
+  curl -X DELETE http://localhost:8080/api/builders/5
+
+  curl http://localhost:8080/api/builders/1/plans - nested fresh 
