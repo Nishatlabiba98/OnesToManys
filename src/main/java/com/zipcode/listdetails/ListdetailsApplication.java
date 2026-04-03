@@ -1,0 +1,13 @@
+package com.zipcode.listdetails;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class ListdetailsApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(ListdetailsApplication.class, args);
+	}
+
+}

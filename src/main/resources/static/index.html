@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Homestead 🌾</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Mulish:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --barn:    #1a0f0a;
+      --wood:    #2d1a0e;
+      --plank:   #3d2512;
+      --beam:    #5c3a1e;
+      --rust:    #8b3a1a;
+      --ember:   #c4622d;
+      --amber:   #d4883a;
+      --gold:    #e8b84b;
+      --hay:     #f0d080;
+      --cream:   #f5ead0;
+      --chalk:   #f0e8d8;
+      --iron:    #4a3828;
+      --ash:     #7a6a58;
+      --fog:     #a08870;
+      --serif:   'Playfair Display', serif;
+      --sans:    'Mulish', sans-serif;
+    }
+
+    body {
+      font-family: var(--sans);
+      background-color: var(--barn);
+      background-image:
+        repeating-linear-gradient(
+          90deg,
+          transparent,
+          transparent 80px,
+          rgba(93,58,30,0.08) 80px,
+          rgba(93,58,30,0.08) 82px
+        ),
+        repeating-linear-gradient(
+          180deg,
+          transparent,
+          transparent 120px,
+          rgba(93,58,30,0.05) 120px,
+          rgba(93,58,30,0.05) 122px
+        );
+      min-height: 100vh;
+      color: var(--cream);
+    }
+
+    /* ── HEADER ── */
+    header {
+      background: linear-gradient(180deg, #120a05 0%, var(--wood) 100%);
+      border-bottom: 2px solid var(--beam);
+      padding: 0 2.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 76px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 4px 30px rgba(0,0,0,0.6), 0 1px 0 var(--amber) inset;
+    }
+
+    .header-left h1 {
+      font-family: var(--serif);
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--gold);
+      text-shadow: 0 0 30px rgba(228,184,75,0.4);
+      letter-spacing: -0.5px;
+    }
+
+    .header-left p {
+      font-size: 0.72rem;
+      color: var(--fog);
+      font-weight: 300;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .header-right {
+      font-family: var(--serif);
+      font-style: italic;
+      font-size: 0.95rem;
+      color: var(--amber);
+    }
+
+    /* ── LANTERN HERO ── */
+    .hero {
+      position: relative;
+      background: linear-gradient(180deg, #0d0600 0%, var(--wood) 40%, var(--plank) 100%);
+      padding: 4rem 2.5rem 3rem;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    /* Lantern glow */
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -60px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 400px;
+      height: 300px;
+      background: radial-gradient(ellipse at 50% 30%,
+        rgba(228,184,75,0.18) 0%,
+        rgba(196,98,45,0.08) 40%,
+        transparent 70%
+      );
+      pointer-events: none;
+    }
+
+    /* Wood grain lines */
+    .hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        175deg,
+        transparent,
+        transparent 40px,
+        rgba(0,0,0,0.06) 40px,
+        rgba(0,0,0,0.06) 41px
+      );
+      pointer-events: none;
+    }
+
+    .hero-lantern {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 1.2rem;
+      animation: mansionFloat 5s ease-in-out infinite;
+      filter: drop-shadow(0 12px 24px rgba(0,0,0,0.5));
+    }
+
+    @keyframes mansionFloat {
+      0%, 100% { transform: translateY(0px); filter: drop-shadow(0 12px 24px rgba(0,0,0,0.5)) drop-shadow(0 0 30px rgba(228,184,75,0.15)); }
+      50%       { transform: translateY(-8px); filter: drop-shadow(0 20px 32px rgba(0,0,0,0.4)) drop-shadow(0 0 50px rgba(228,184,75,0.25)); }
+    }
+
+    .hero h2 {
+      font-family: var(--serif);
+      font-size: 2.6rem;
+      font-weight: 700;
+      color: var(--cream);
+      margin-bottom: 0.5rem;
+      text-shadow: 0 2px 20px rgba(0,0,0,0.8);
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero h2 em {
+      color: var(--gold);
+      font-style: italic;
+      text-shadow: 0 0 40px rgba(228,184,75,0.5);
+    }
+
+    .hero p {
+      font-size: 0.85rem;
+      color: var(--fog);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      font-weight: 300;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ── MAIN ── */
+    main { max-width: 1200px; margin: 0 auto; padding: 2.5rem 2rem 6rem; }
+
+    /* ── SECTION HEADER ── */
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.5rem;
+    }
+
+    .section-title {
+      font-family: var(--serif);
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--cream);
+    }
+
+    .section-title span {
+      font-family: var(--sans);
+      font-weight: 300;
+      font-style: normal;
+      font-size: 0.8rem;
+      color: var(--fog);
+      margin-left: 0.6rem;
+      letter-spacing: 1px;
+    }
+
+    /* ── BUTTONS ── */
+    .btn {
+      font-family: var(--sans);
+      font-size: 0.78rem;
+      font-weight: 600;
+      padding: 0.55rem 1.3rem;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      letter-spacing: 0.5px;
+    }
+
+    .btn-add {
+      background: linear-gradient(135deg, var(--ember), var(--rust));
+      color: var(--cream);
+      box-shadow: 0 4px 16px rgba(139,58,26,0.5), 0 0 0 1px rgba(228,184,75,0.15);
+    }
+    .btn-add:hover {
+      background: linear-gradient(135deg, var(--amber), var(--ember));
+      box-shadow: 0 6px 20px rgba(196,98,45,0.6), 0 0 12px rgba(228,184,75,0.2);
+      transform: translateY(-1px);
+    }
+
+    .btn-view {
+      background: rgba(93,58,30,0.4);
+      color: var(--hay);
+      border: 1px solid var(--beam);
+      font-size: 0.72rem;
+      padding: 0.35rem 0.9rem;
+    }
+    .btn-view:hover { background: var(--beam); color: var(--gold); }
+
+    .btn-edit {
+      background: rgba(74,56,40,0.4);
+      color: var(--fog);
+      border: 1px solid var(--iron);
+      font-size: 0.72rem;
+      padding: 0.35rem 0.9rem;
+    }
+    .btn-edit:hover { background: var(--iron); color: var(--cream); }
+
+    .btn-delete {
+      background: rgba(139,58,26,0.15);
+      color: var(--ember);
+      border: 1px solid rgba(139,58,26,0.3);
+      font-size: 0.72rem;
+      padding: 0.35rem 0.9rem;
+    }
+    .btn-delete:hover { background: var(--rust); color: var(--cream); }
+
+    .btn-cancel {
+      background: transparent;
+      color: var(--fog);
+      border: 1px solid var(--iron);
+    }
+    .btn-cancel:hover { border-color: var(--fog); color: var(--cream); }
+
+    .btn-save {
+      background: linear-gradient(135deg, var(--ember), var(--rust));
+      color: var(--cream);
+      box-shadow: 0 3px 12px rgba(139,58,26,0.4);
+    }
+    .btn-save:hover { background: linear-gradient(135deg, var(--amber), var(--ember)); }
+
+    /* ── BUILDER CARDS ── */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 3rem;
+    }
+
+    .builder-card {
+      background: linear-gradient(160deg, var(--plank) 0%, var(--wood) 100%);
+      border-radius: 6px;
+      padding: 1.6rem;
+      border: 1px solid var(--beam);
+      border-top: 1px solid rgba(228,184,75,0.15);
+      transition: all 0.25s ease;
+      animation: fadeUp 0.4s ease both;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.4), inset 0 1px 0 rgba(228,184,75,0.08);
+    }
+
+    /* Wood grain on card */
+    .builder-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        170deg,
+        transparent,
+        transparent 30px,
+        rgba(0,0,0,0.04) 30px,
+        rgba(0,0,0,0.04) 31px
+      );
+      pointer-events: none;
+    }
+
+    /* Lantern glow on hover */
+    .builder-card::after {
+      content: '';
+      position: absolute;
+      top: -30px; left: 50%;
+      transform: translateX(-50%);
+      width: 150px; height: 100px;
+      background: radial-gradient(ellipse, rgba(228,184,75,0.12), transparent 70%);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+    }
+
+    .builder-card:hover {
+      border-color: var(--amber);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.5), 0 0 20px rgba(228,184,75,0.1);
+      transform: translateY(-3px);
+    }
+
+    .builder-card:hover::after { opacity: 1; }
+
+    .builder-card.active {
+      border-color: var(--gold);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.4), 0 0 24px rgba(228,184,75,0.2);
+    }
+
+    .card-icon {
+      font-size: 2rem;
+      display: block;
+      margin-bottom: 0.8rem;
+      filter: drop-shadow(0 0 8px rgba(228,184,75,0.4));
+    }
+
+    .builder-card h3 {
+      font-family: var(--serif);
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--cream);
+      margin-bottom: 0.3rem;
+    }
+
+    .builder-card .vision {
+      font-size: 0.82rem;
+      color: var(--fog);
+      font-style: italic;
+      font-family: var(--serif);
+      margin-bottom: 0.6rem;
+      line-height: 1.5;
+    }
+
+    .builder-card .location {
+      font-size: 0.72rem;
+      color: var(--amber);
+      font-weight: 500;
+      margin-bottom: 1rem;
+      letter-spacing: 0.5px;
+    }
+
+    .plan-count-pill {
+      display: inline-block;
+      background: rgba(196,98,45,0.2);
+      color: var(--amber);
+      border: 1px solid rgba(196,98,45,0.3);
+      font-size: 0.68rem;
+      font-weight: 600;
+      padding: 0.2rem 0.7rem;
+      border-radius: 3px;
+      margin-bottom: 1rem;
+      letter-spacing: 0.5px;
+    }
+
+    .card-actions { display: flex; gap: 0.5rem; flex-wrap: wrap; position: relative; z-index: 1; }
+
+    /* ── PLANS SECTION ── */
+    .plans-container {
+      background: linear-gradient(160deg, var(--wood) 0%, var(--barn) 100%);
+      border-radius: 6px;
+      padding: 2rem;
+      border: 1px solid var(--beam);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.5), inset 0 1px 0 rgba(228,184,75,0.06);
+    }
+
+    .plans-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1.2rem;
+    }
+
+    .plan-card {
+      background: linear-gradient(135deg, var(--plank), var(--wood));
+      border-radius: 5px;
+      padding: 1.3rem;
+      border: 1px solid var(--iron);
+      border-left: 3px solid var(--ember);
+      transition: all 0.2s ease;
+      animation: fadeUp 0.3s ease both;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+    }
+
+    .plan-card:hover {
+      border-left-color: var(--gold);
+      box-shadow: 0 6px 24px rgba(0,0,0,0.4), 0 0 12px rgba(228,184,75,0.08);
+      transform: translateY(-2px);
+    }
+
+    .plan-icon { font-size: 1.4rem; margin-bottom: 0.5rem; display: block; filter: drop-shadow(0 0 6px rgba(228,184,75,0.3)); }
+
+    .plan-card h4 {
+      font-family: var(--serif);
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--cream);
+      margin-bottom: 0.25rem;
+    }
+
+    .plan-style {
+      font-size: 0.68rem;
+      font-weight: 600;
+      color: var(--amber);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 0.4rem;
+    }
+
+    .plan-sqft {
+      font-size: 1.3rem;
+      font-family: var(--serif);
+      color: var(--gold);
+      font-weight: 700;
+      margin-bottom: 0.2rem;
+      text-shadow: 0 0 20px rgba(228,184,75,0.3);
+    }
+
+    .plan-sqft span { font-size: 0.7rem; color: var(--fog); font-family: var(--sans); font-weight: 400; }
+    .plan-notes { font-size: 0.78rem; color: var(--ash); font-style: italic; margin-bottom: 0.8rem; line-height: 1.4; }
+    .plan-actions { display: flex; gap: 0.4rem; }
+
+    /* ── EMPTY STATE ── */
+    .empty-state { text-align: center; padding: 3.5rem 2rem; color: var(--ash); }
+    .empty-state .empty-icon { font-size: 2.5rem; display: block; margin-bottom: 1rem; opacity: 0.6; }
+    .empty-state p { font-family: var(--serif); font-style: italic; font-size: 1rem; color: var(--fog); }
+
+    /* ── MODAL ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(10,5,2,0.8);
+      backdrop-filter: blur(6px);
+      z-index: 200;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+    .modal-overlay.open { display: flex; }
+
+    .modal {
+      background: linear-gradient(160deg, var(--plank), var(--wood));
+      border-radius: 8px;
+      padding: 2.2rem;
+      width: 100%;
+      max-width: 440px;
+      border: 1px solid var(--beam);
+      border-top: 1px solid rgba(228,184,75,0.2);
+      box-shadow: 0 30px 80px rgba(0,0,0,0.7), 0 0 40px rgba(228,184,75,0.08);
+      animation: modalIn 0.25s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Glow at top of modal */
+    .modal::before {
+      content: '';
+      position: absolute;
+      top: -40px; left: 50%;
+      transform: translateX(-50%);
+      width: 200px; height: 80px;
+      background: radial-gradient(ellipse, rgba(228,184,75,0.15), transparent 70%);
+      pointer-events: none;
+    }
+
+    @keyframes modalIn {
+      from { transform: translateY(24px); opacity: 0; }
+      to   { transform: translateY(0);    opacity: 1; }
+    }
+
+    .modal-icon { font-size: 2rem; display: block; margin-bottom: 0.5rem; filter: drop-shadow(0 0 10px rgba(228,184,75,0.5)); }
+
+    .modal h3 {
+      font-family: var(--serif);
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      color: var(--cream);
+    }
+
+    .form-group { margin-bottom: 1.1rem; position: relative; z-index: 1; }
+
+    .form-group label {
+      display: block;
+      font-size: 0.68rem;
+      font-weight: 600;
+      color: var(--fog);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 0.4rem;
+    }
+
+    .form-group input,
+    .form-group textarea {
+      width: 100%;
+      padding: 0.65rem 1rem;
+      border: 1px solid var(--iron);
+      border-radius: 4px;
+      background: rgba(10,5,2,0.4);
+      font-family: var(--sans);
+      font-size: 0.9rem;
+      color: var(--cream);
+      outline: none;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+
+    .form-group input::placeholder,
+    .form-group textarea::placeholder { color: var(--ash); }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+      border-color: var(--amber);
+      box-shadow: 0 0 0 3px rgba(212,136,58,0.12);
+    }
+
+    .form-group textarea { resize: vertical; min-height: 80px; }
+
+    .modal-actions { display: flex; gap: 0.75rem; margin-top: 1.5rem; justify-content: flex-end; position: relative; z-index: 1; }
+
+    /* ── DIVIDER ── */
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--beam), transparent);
+      margin: 2.5rem 0;
+      position: relative;
+    }
+
+    .divider::after {
+      content: '✦';
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      color: var(--ember);
+      font-size: 0.8rem;
+      background: var(--barn);
+      padding: 0 0.8rem;
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── TOAST ── */
+    .toast {
+      position: fixed;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: var(--plank);
+      border: 1px solid var(--amber);
+      color: var(--hay);
+      padding: 0.7rem 1.5rem;
+      border-radius: 4px;
+      font-size: 0.82rem;
+      font-weight: 500;
+      transition: transform 0.3s ease;
+      z-index: 999;
+      white-space: nowrap;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.5), 0 0 16px rgba(228,184,75,0.15);
+    }
+    .toast.show { transform: translateX(-50%) translateY(0); }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-left">
+      <h1>🌾 Homestead</h1>
+      <p>our family's home planning journal</p>
+    </div>
+    <div class="header-right">building our forever home 🕯️</div>
+  </header>
+
+  <div class="hero">
+    <div class="hero-lantern">
+      <svg width="160" height="120" viewBox="0 0 160 120" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <radialGradient id="winGlow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#f0d080" stop-opacity="0.95"/>
+            <stop offset="100%" stop-color="#c4622d" stop-opacity="0.3"/>
+          </radialGradient>
+          <radialGradient id="skyGlow" cx="50%" cy="100%" r="60%">
+            <stop offset="0%" stop-color="#e8b84b" stop-opacity="0.2"/>
+            <stop offset="100%" stop-color="#e8b84b" stop-opacity="0"/>
+          </radialGradient>
+          <filter id="glow"><feGaussianBlur stdDeviation="2.5" result="blur"/>
+            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+        </defs>
+        <!-- Ambient glow -->
+        <ellipse cx="80" cy="95" rx="72" ry="28" fill="url(#skyGlow)"/>
+        <!-- Left tower -->
+        <rect x="8" y="40" width="26" height="65" fill="#3d2a1a" rx="1"/>
+        <rect x="9" y="44" width="11" height="5" fill="#4a3525" rx="1" opacity="0.7"/>
+        <rect x="22" y="44" width="11" height="5" fill="#3a2818" rx="1" opacity="0.7"/>
+        <rect x="9" y="53" width="11" height="5" fill="#3a2818" rx="1" opacity="0.7"/>
+        <rect x="22" y="53" width="11" height="5" fill="#4a3525" rx="1" opacity="0.7"/>
+        <rect x="9" y="62" width="11" height="5" fill="#4a3525" rx="1" opacity="0.7"/>
+        <rect x="22" y="62" width="11" height="5" fill="#3a2818" rx="1" opacity="0.7"/>
+        <polygon points="5,40 21,12 35,40" fill="#2d1a0e"/>
+        <rect x="13" y="70" width="13" height="17" fill="url(#winGlow)" rx="6" filter="url(#glow)"/>
+        <!-- Right tower -->
+        <rect x="126" y="40" width="26" height="65" fill="#3d2a1a" rx="1"/>
+        <rect x="127" y="44" width="11" height="5" fill="#4a3525" rx="1" opacity="0.7"/>
+        <rect x="140" y="44" width="11" height="5" fill="#3a2818" rx="1" opacity="0.7"/>
+        <rect x="127" y="53" width="11" height="5" fill="#3a2818" rx="1" opacity="0.7"/>
+        <rect x="140" y="53" width="11" height="5" fill="#4a3525" rx="1" opacity="0.7"/>
+        <rect x="127" y="62" width="11" height="5" fill="#4a3525" rx="1" opacity="0.7"/>
+        <rect x="140" y="62" width="11" height="5" fill="#3a2818" rx="1" opacity="0.7"/>
+        <polygon points="125,40 139,12 153,40" fill="#2d1a0e"/>
+        <rect x="134" y="70" width="13" height="17" fill="url(#winGlow)" rx="6" filter="url(#glow)"/>
+        <!-- Main body -->
+        <rect x="30" y="50" width="100" height="55" fill="#3d2a1a"/>
+        <rect x="31" y="53" width="16" height="6" fill="#4a3525" rx="1" opacity="0.6"/>
+        <rect x="50" y="53" width="16" height="6" fill="#3a2818" rx="1" opacity="0.6"/>
+        <rect x="69" y="53" width="16" height="6" fill="#4a3525" rx="1" opacity="0.6"/>
+        <rect x="88" y="53" width="16" height="6" fill="#3a2818" rx="1" opacity="0.6"/>
+        <rect x="31" y="63" width="16" height="6" fill="#3a2818" rx="1" opacity="0.6"/>
+        <rect x="50" y="63" width="16" height="6" fill="#4a3525" rx="1" opacity="0.6"/>
+        <rect x="69" y="63" width="16" height="6" fill="#3a2818" rx="1" opacity="0.6"/>
+        <rect x="88" y="63" width="16" height="6" fill="#4a3525" rx="1" opacity="0.6"/>
+        <!-- Main roof -->
+        <polygon points="26,50 80,20 134,50" fill="#2d1a0e"/>
+        <polygon points="26,50 80,20 134,50" fill="#5c3a1e" opacity="0.2"/>
+        <!-- Left window -->
+        <rect x="37" y="58" width="19" height="15" fill="url(#winGlow)" rx="2" filter="url(#glow)"/>
+        <line x1="46" y1="58" x2="46" y2="73" stroke="#c4622d" stroke-width="1" opacity="0.5"/>
+        <line x1="37" y1="66" x2="56" y2="66" stroke="#c4622d" stroke-width="1" opacity="0.5"/>
+        <!-- Right window -->
+        <rect x="104" y="58" width="19" height="15" fill="url(#winGlow)" rx="2" filter="url(#glow)"/>
+        <line x1="113" y1="58" x2="113" y2="73" stroke="#c4622d" stroke-width="1" opacity="0.5"/>
+        <line x1="104" y1="66" x2="123" y2="66" stroke="#c4622d" stroke-width="1" opacity="0.5"/>
+        <!-- Front door -->
+        <rect x="68" y="76" width="24" height="29" fill="#1a0f0a" rx="2"/>
+        <rect x="68" y="76" width="24" height="14" fill="url(#winGlow)" rx="2" opacity="0.35" filter="url(#glow)"/>
+        <rect x="68" y="76" width="24" height="29" fill="none" stroke="#5c3a1e" stroke-width="1.5" rx="2"/>
+        <circle cx="88" cy="92" r="2" fill="#e8b84b" opacity="0.9"/>
+        <!-- Ground -->
+        <rect x="18" y="104" width="124" height="4" fill="#2d1a0e" rx="2"/>
+        <!-- Chimney -->
+        <rect x="56" y="12" width="9" height="15" fill="#2d1a0e"/>
+        <rect x="95" y="16" width="9" height="11" fill="#2d1a0e"/>
+      </svg>
+    </div>
+    <h2>Find the place where <em>we belong</em></h2>
+    <p>explore builders · dream up plans · build our future</p>
+  </div>
+
+  <main>
+    <div class="section-header" style="margin-top:0.5rem">
+      <div class="section-title">Builders <span>/ who would raise our walls</span></div>
+      <button class="btn btn-add" onclick="openBuilderModal()">+ Add Builder</button>
+    </div>
+
+    <div class="cards-grid" id="builder-grid">
+      <div class="empty-state" style="grid-column:1/-1">
+        <span class="empty-icon">🕯️</span><p>Lighting the lantern...</p>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="section-header">
+      <div class="section-title">Building Plans <span id="selected-label">/ select a builder above</span></div>
+      <button class="btn btn-add" id="add-plan-btn" onclick="openPlanModal()" style="display:none">+ Add Plan</button>
+    </div>
+
+    <div class="plans-container">
+      <div class="plans-grid" id="plan-grid">
+        <div class="empty-state" style="grid-column:1/-1">
+          <span class="empty-icon">🌾</span><p>Select a builder to see their plans</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Builder Modal -->
+  <div class="modal-overlay" id="builder-modal">
+    <div class="modal">
+      <span class="modal-icon">🏚️</span>
+      <h3 id="builder-modal-title">Add a Builder</h3>
+      <div class="form-group"><label>Name</label><input type="text" id="builder-name" placeholder="Builder's name"></div>
+      <div class="form-group"><label>Vision</label><input type="text" id="builder-vision" placeholder="Their building philosophy"></div>
+      <div class="form-group"><label>Location</label><input type="text" id="builder-location" placeholder="City, State"></div>
+      <div class="form-group"><label>Icon (emoji)</label><input type="text" id="builder-icon" placeholder="🏡" maxlength="4"></div>
+      <div class="modal-actions">
+        <button class="btn btn-cancel" onclick="closeBuilderModal()">Cancel</button>
+        <button class="btn btn-save" onclick="saveBuilder()">Save Builder</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Plan Modal -->
+  <div class="modal-overlay" id="plan-modal">
+    <div class="modal">
+      <span class="modal-icon">📐</span>
+      <h3 id="plan-modal-title">Add a Plan</h3>
+      <div class="form-group"><label>Title</label><input type="text" id="plan-title" placeholder="e.g. The Meadow House"></div>
+      <div class="form-group"><label>Style</label><input type="text" id="plan-style" placeholder="Colonial, Modern, Ranch..."></div>
+      <div class="form-group"><label>Square Feet</label><input type="number" id="plan-sqft" placeholder="2400"></div>
+      <div class="form-group"><label>Notes</label><textarea id="plan-notes" placeholder="What makes this feel like home for our family..."></textarea></div>
+      <div class="form-group"><label>Icon (emoji)</label><input type="text" id="plan-icon" placeholder="🌾" maxlength="4"></div>
+      <div class="modal-actions">
+        <button class="btn btn-cancel" onclick="closePlanModal()">Cancel</button>
+        <button class="btn btn-save" onclick="savePlan()">Save Plan</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    const API = 'http://localhost:8080/api';
+    let selectedBuilderId = null;
+    let selectedBuilderName = '';
+    let editingBuilderId = null;
+    let editingPlanId = null;
+
+    function toast(msg) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 2500);
+    }
+
+    async function loadBuilders() {
+      const res = await fetch(`${API}/builders`);
+      const builders = await res.json();
+      const grid = document.getElementById('builder-grid');
+      if (!builders.length) {
+        grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1"><span class="empty-icon">🌾</span><p>No builders yet — add one to get started</p></div>`;
+        return;
+      }
+      grid.innerHTML = builders.map(b => `
+        <div class="builder-card ${b.id === selectedBuilderId ? 'active' : ''}">
+          <span class="card-icon">${b.icon || '🏡'}</span>
+          <h3>${b.name}</h3>
+          <div class="vision">"${b.vision}"</div>
+          <div class="location">📍 ${b.location}</div>
+          <div class="plan-count-pill">${b.plans ? b.plans.length : 0} plan${b.plans?.length !== 1 ? 's' : ''}</div>
+          <div class="card-actions">
+            <button class="btn btn-view" onclick="selectBuilder(${b.id}, '${b.name.replace(/'/g,"\\'")}')">View Plans</button>
+            <button class="btn btn-edit" onclick="editBuilder(${b.id}, '${b.name.replace(/'/g,"\\'")}', '${b.vision.replace(/'/g,"\\'")}', '${b.location.replace(/'/g,"\\'")}', '${b.icon||''}')">Edit</button>
+            <button class="btn btn-delete" onclick="deleteBuilder(${b.id})">Remove</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    async function selectBuilder(id, name) {
+      selectedBuilderId = id;
+      selectedBuilderName = name;
+      document.getElementById('selected-label').textContent = `/ ${name}'s plans`;
+      document.getElementById('add-plan-btn').style.display = 'block';
+      const res = await fetch(`${API}/builders/${id}/plans`);
+      const plans = await res.json();
+      const grid = document.getElementById('plan-grid');
+      if (!plans.length) {
+        grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1"><span class="empty-icon">🌾</span><p>No plans yet — add one for this builder!</p></div>`;
+      } else {
+        grid.innerHTML = plans.map(p => `
+          <div class="plan-card">
+            <span class="plan-icon">${p.icon || '🏠'}</span>
+            <h4>${p.title}</h4>
+            <div class="plan-style">${p.style}</div>
+            <div class="plan-sqft">${p.squareFeet.toLocaleString()} <span>sq ft</span></div>
+            <div class="plan-notes">${p.notes || ''}</div>
+            <div class="plan-actions">
+              <button class="btn btn-edit" onclick="editPlan(${p.id}, '${p.title.replace(/'/g,"\\'")}', '${p.style.replace(/'/g,"\\'")}', ${p.squareFeet}, '${(p.notes||'').replace(/'/g,"\\'")}', '${p.icon||''}')">Edit</button>
+              <button class="btn btn-delete" onclick="deletePlan(${p.id})">Remove</button>
+            </div>
+          </div>
+        `).join('');
+      }
+      loadBuilders();
+    }
+
+    function openBuilderModal() {
+      editingBuilderId = null;
+      document.getElementById('builder-modal-title').textContent = 'Add a Builder';
+      ['builder-name','builder-vision','builder-location','builder-icon'].forEach(id => document.getElementById(id).value = '');
+      document.getElementById('builder-modal').classList.add('open');
+    }
+
+    function editBuilder(id, name, vision, location, icon) {
+      editingBuilderId = id;
+      document.getElementById('builder-modal-title').textContent = 'Edit Builder';
+      document.getElementById('builder-name').value = name;
+      document.getElementById('builder-vision').value = vision;
+      document.getElementById('builder-location').value = location;
+      document.getElementById('builder-icon').value = icon;
+      document.getElementById('builder-modal').classList.add('open');
+    }
+
+    function closeBuilderModal() { document.getElementById('builder-modal').classList.remove('open'); }
+
+    async function saveBuilder() {
+      const body = {
+        name: document.getElementById('builder-name').value,
+        vision: document.getElementById('builder-vision').value,
+        location: document.getElementById('builder-location').value,
+        icon: document.getElementById('builder-icon').value || '🏡'
+      };
+      const url = editingBuilderId ? `${API}/builders/${editingBuilderId}` : `${API}/builders`;
+      const method = editingBuilderId ? 'PUT' : 'POST';
+      await fetch(url, { method, headers: {'Content-Type':'application/json'}, body: JSON.stringify(body) });
+      closeBuilderModal();
+      loadBuilders();
+      toast(editingBuilderId ? '✏️ Builder updated' : '🕯️ Builder added!');
+    }
+
+    async function deleteBuilder(id) {
+      if (!confirm('Remove this builder and all their plans?')) return;
+      await fetch(`${API}/builders/${id}`, { method: 'DELETE' });
+      if (selectedBuilderId === id) {
+        selectedBuilderId = null;
+        document.getElementById('plan-grid').innerHTML = `<div class="empty-state" style="grid-column:1/-1"><span class="empty-icon">🌾</span><p>Select a builder to see their plans</p></div>`;
+        document.getElementById('selected-label').textContent = '/ select a builder above';
+        document.getElementById('add-plan-btn').style.display = 'none';
+      }
+      loadBuilders();
+      toast('🗑️ Builder removed');
+    }
+
+    function openPlanModal() {
+      editingPlanId = null;
+      document.getElementById('plan-modal-title').textContent = 'Add a Plan';
+      ['plan-title','plan-style','plan-sqft','plan-notes','plan-icon'].forEach(id => document.getElementById(id).value = '');
+      document.getElementById('plan-modal').classList.add('open');
+    }
+
+    function editPlan(id, title, style, sqft, notes, icon) {
+      editingPlanId = id;
+      document.getElementById('plan-modal-title').textContent = 'Edit Plan';
+      document.getElementById('plan-title').value = title;
+      document.getElementById('plan-style').value = style;
+      document.getElementById('plan-sqft').value = sqft;
+      document.getElementById('plan-notes').value = notes;
+      document.getElementById('plan-icon').value = icon;
+      document.getElementById('plan-modal').classList.add('open');
+    }
+
+    function closePlanModal() { document.getElementById('plan-modal').classList.remove('open'); }
+
+    async function savePlan() {
+      const isEditing = editingPlanId !== null;
+      const body = {
+        title: document.getElementById('plan-title').value,
+        style: document.getElementById('plan-style').value,
+        squareFeet: parseInt(document.getElementById('plan-sqft').value),
+        notes: document.getElementById('plan-notes').value,
+        icon: document.getElementById('plan-icon').value || '🌾',
+        builder: { id: selectedBuilderId }
+      };
+      const url = isEditing ? `${API}/plans/${editingPlanId}` : `${API}/plans`;
+      const method = isEditing ? 'PUT' : 'POST';
+      await fetch(url, { method, headers: {'Content-Type':'application/json'}, body: JSON.stringify(body) });
+      editingPlanId = null;
+      closePlanModal();
+      await selectBuilder(selectedBuilderId, selectedBuilderName);
+      toast(isEditing ? '✏️ Plan updated' : '🌾 Plan added!');
+    }
+
+    async function deletePlan(id) {
+      if (!confirm('Remove this plan?')) return;
+      await fetch(`${API}/plans/${id}`, { method: 'DELETE' });
+      selectBuilder(selectedBuilderId, selectedBuilderName);
+      toast('🗑️ Plan removed');
+    }
+
+    document.getElementById('builder-modal').addEventListener('click', e => { if (e.target === e.currentTarget) closeBuilderModal(); });
+    document.getElementById('plan-modal').addEventListener('click', e => { if (e.target === e.currentTarget) closePlanModal(); });
+
+    loadBuilders();
+  </script>
+</body>
+</html>
