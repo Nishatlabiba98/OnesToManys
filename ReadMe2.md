@@ -49,6 +49,8 @@ curl -X DELETE http://localhost:8080/api/builders/1
  lsof -ti:8080 | xargs kill -9
 mvn spring-boot:run
 
+http://localhost:8080/api-tester.html
+
 Builder                    BuildingPlan
 ───────────────────        ──────────────────────
 id          PK             id           PK
